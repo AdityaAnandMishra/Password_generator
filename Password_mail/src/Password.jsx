@@ -1,10 +1,27 @@
-import {useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 function Password() {
     const [password, setPassword] = useState('')
     const [length, setLength] = useState('8')
     const [isNumber, setIsNumber] = useState(false)
     const [isCharacter, setIsCharacter] = useState(false)
+    const [isPassword, setIsPassword] = useState('')
+    const passwordGenerator = useCallback(() =>{
+        let password = "";
+        let custom = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        if(isCharacter) custom += "!@#$%^&*-_+=[]{}~`"
+        if(isNumber) custom += "0123456789"
+
+        for ( let i = 1; i <= length; i++ ) {
+            let char = Math.floor(Math.random() * custom.length + 1)
+            password += custom.charAt(char)
+        }
+        setPassword(password)
+    }, [isCharacter, length, isNumber, setIsPassword])
+
+    useEffect(()=>{
+        passwordGenerator()
+    }, [passwordGenerator, isCharacter, length, isNumber])
 
     return(
         <>
