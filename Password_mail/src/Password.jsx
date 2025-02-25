@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
 function Password() {
     const [password, setPassword] = useState('')
@@ -6,6 +6,12 @@ function Password() {
     const [isNumber, setIsNumber] = useState(false)
     const [isCharacter, setIsCharacter] = useState(false)
     const [isPassword, setIsPassword] = useState('')
+    const [copySuccess, setCopySuccess] = useState('Copy');
+
+    //useref hook
+    const passwordRef = useRef(null);
+
+    //using usecallback for the  better optimization
     const passwordGenerator = useCallback(() =>{
         let password = "";
         let custom = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -17,11 +23,18 @@ function Password() {
             password += custom.charAt(char)
         }
         setPassword(password)
+        setCopySuccess('Copy');
     }, [isCharacter, length, isNumber, setIsPassword])
 
     useEffect(()=>{
         passwordGenerator()
     }, [passwordGenerator, isCharacter, length, isNumber])
+
+    const copyToClipboard = useCallback(() => {
+        passwordRef.current?.select();
+        document.execCommand('copy');
+        setCopySuccess('Copied!');
+    }, [isPassword])
 
     return(
         <>
@@ -37,12 +50,13 @@ function Password() {
                             value={password}
                             className="bg-white outline-none w-full py-1 px-3"
                             placeholder="Password"
+                            ref={passwordRef}
                             readOnly
                         />
                         <button
                             className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0'
-                        >Copy
-                        </button>
+                            onClick={copyToClipboard}>{copySuccess}</button>
+
                     </div>
                     <h1 className="text-base/7 font-semibold dark:text-white p-5">Customization option</h1>
                     <div className='flex flex-col text-sm gap-x-2'>
