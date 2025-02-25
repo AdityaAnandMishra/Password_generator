@@ -9,8 +9,9 @@ function App() {
               <h1 Class="text-base/7 font-semibold dark:text-white lg:text-center p-2">
                   Welcome to my portfolio Project
               </h1>
-              <div Class="flex">
-                  <Password />
+              <div Class="flex justify-around">
+                  <Password className="flex-1"/>
+                  <Password className="flex-1"/>
               </div>
           </div>
       </>
