@@ -1,5 +1,6 @@
 import './App.css'
 import Password from "./Password.jsx";
+import Mail_Generator from "./Mail_Generator.jsx";
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
               </h1>
               <div Class="flex justify-around">
                   <Password className="flex-1"/>
-                  <Password className="flex-1"/>
+                  <Mail_Generator className="flex-1"/>
               </div>
           </div>
       </>
